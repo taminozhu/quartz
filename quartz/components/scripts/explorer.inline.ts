@@ -99,6 +99,7 @@ function createFolderNode(
   currentSlug: FullSlug,
   node: FileTrieNode,
   opts: ParsedOptions,
+  showCount = false,
 ): HTMLLIElement {
   const template = document.getElementById("template-folder") as HTMLTemplateElement
   const clone = template.content.cloneNode(true) as DocumentFragment
@@ -115,6 +116,13 @@ function createFolderNode(
     folderContainer.classList.add("active")
   }
 
+  const countSpan = showCount ? (() => {
+    const span = document.createElement("span")
+    span.className = "folder-count"
+    span.textContent = `(${node.numFiles})`
+    return span
+  })() : null
+
   if (opts.folderClickBehavior === "link") {
     // Replace button with link for link behavior
     const button = titleContainer.querySelector(".folder-button") as HTMLElement
@@ -123,10 +131,12 @@ function createFolderNode(
     a.dataset.for = folderPath
     a.className = "folder-title"
     a.textContent = node.displayName
+    if (countSpan) a.appendChild(countSpan)
     button.replaceWith(a)
   } else {
     const span = titleContainer.querySelector(".folder-title") as HTMLElement
     span.textContent = node.displayName
+    if (countSpan) span.appendChild(countSpan)
   }
 
   // if the saved state is collapsed or the default state is collapsed
@@ -213,7 +223,7 @@ async function setupExplorer(currentSlug: FullSlug) {
     const fragment = document.createDocumentFragment()
     for (const child of trie.children) {
       const node = child.isFolder
-        ? createFolderNode(currentSlug, child, opts)
+        ? createFolderNode(currentSlug, child, opts, true)
         : createFileNode(currentSlug, child)
 
       fragment.appendChild(node)

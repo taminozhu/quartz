@@ -203,6 +203,13 @@ button.desktop-explorer {
   }
 }
 
+.folder-count {
+  margin-left: 0.3em;
+  color: var(--tertiary);
+  font-weight: normal;
+  pointer-events: none;
+}
+
 .folder-icon {
   margin-right: 5px;
   color: var(--secondary);
