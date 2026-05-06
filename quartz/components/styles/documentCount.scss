@@ -1,0 +1,16 @@
+@use "../../styles/variables.scss" as *;
+
+.document-count {
+  text-align: left;
+
+  & > #doc-count-display {
+    font-size: 0.95rem;
+    color: var(--gray);
+    font-weight: $normalWeight;
+    letter-spacing: 0.5px;
+  }
+
+  @media all and ($mobile) {
+    display: none;
+  }
+}
